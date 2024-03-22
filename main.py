@@ -1,3 +1,5 @@
+import re
+
 # Open sample file and read contents
 with open("test.txt", "r") as file:
     word = file.read()
@@ -17,6 +19,7 @@ clean_list = [" ".join(item.split()) for item in clean_list]
 # Print remaining items in list
 for item in clean_list:
     print(item)
+print()
 
 # Define regular expressions for different types of tokens
 patterns = [
@@ -28,3 +31,12 @@ patterns = [
 ]
 
 # Check each item of "clean_list" to see what regex pattern it matches using for loop
+result = []
+for pattern, token in patterns:
+    for item in clean_list:
+        for match in re.finditer(pattern, item):
+            result.append((match.group(), token))
+
+# Print the lexemes and their tokens
+for lexeme, token in result:
+    print(lexeme + ": " + token)
